@@ -1,1 +1,0 @@
-import{r as a,o as s,c as t,h as n,i as o,j as e}from"./vendor.da6d4c39.js";const r=n("div",null,"系统学习 SVG 和 Canvas 案列",-1),d=e("Canvas实现数字时钟 "),i=e("SvgLight"),l={setup:e=>(e,l)=>{const u=a("router-link");return s(),t("div",null,[r,n(u,{to:"/CanvasTime"},{default:o((()=>[d])),_:1}),n(u,{to:"/SvgLight"},{default:o((()=>[i])),_:1})])}};export{l as default};
