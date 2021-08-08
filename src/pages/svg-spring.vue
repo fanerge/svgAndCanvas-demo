@@ -1,5 +1,11 @@
 <template>
   <div class="lignth-box">
+  <div class="form">
+      <span>弹簧自平衡物理模型，选择小球个数</span>
+      <select v-model="num">
+       <option v-for="v in options" :key="v" :value="v">{{v}}</option>
+      </select>
+    </div>
     <svg
       id="svg"
       width="100%"
@@ -10,11 +16,12 @@
       version="1.1"
     >
       <g id="ball-box"></g>
+      <path id="links" stroke="black"></path>
     </svg>
   </div>
 </template>
 <script>
-import { onMounted, onBeforeUnmount } from "vue";
+import { onMounted, onBeforeUnmount, ref, reactive, watch } from "vue";
 import { random, randomRGB } from "@/utils";
 import Vector from "@/utils/vector";
 const SVG_NS = "http://www.w3.org/2000/svg";
@@ -54,54 +61,102 @@ function genPoints(num = 2) {
   console.log(balls)
 }
 
-let lastTime = +new Date();
+let lastTime = 0;
 function update(time) {
-  var frameTime = +new Date();
-var t = frameTime - lastTime;
-t /= 2000;
-  // 对各个小球求矢量（力、速度、加速度）并更新位置
-balls.forEach((pa) => {
-  // 合力
-  var f = new Vector();
-  balls.forEach((pb) => {
-    if(pa === pb) return;
-    var x = Vector.fromPoints(pa.s, pb.s);
-    var delta = parseInt(x.length() - relation);
-    // var delta = x.length() - relation;
-    // f = k * x;
-    console.log(x)
-    f = f.add(x.normalize(delta * k));
-  });
-  pa.a = f; 
-  // 人为制造动量损失
-  pa.v = pa.v.add(pa.a.multipy(t)).multipy(0.98);
-  pa.s = pa.s.add(pa.v.multipy(t));
-  // console.log(pa.s)
-  pa.circle.setAttribute('cx', pa.s.x);
-  pa.circle.setAttribute('cy', pa.s.y);
-});
-lastTime = time;
-reqAniId = requestAnimationFrame(update);
+  // 毫秒
+  let diff = time - lastTime;
+  if(diff >= 20) {
+    let t = diff / 200;
+    // 对各个小球求矢量（力、速度、加速度）并更新位置
+    balls.forEach((pa) => {
+      var f = new Vector();
+      balls.forEach((pb) => {
+        if(pa === pb) return;
+        var x = Vector.fromPoints(pa.s, pb.s)
+        var delta = x.length() - relation;
+        f = f.add(x.normalize(delta * k));
+      });
+      pa.a = f;
+      // pa.v = pa.v.add(pa.a.multipy(t));
+      // 人为制造动量损失
+      pa.v = pa.v.add(pa.a.multipy(t)).multipy(0.98);
+      pa.s = pa.s.add(pa.v.multipy(t));
+
+      pa.circle.setAttribute('cx', pa.s.x);
+      pa.circle.setAttribute('cy', pa.s.y);
+    });
+
+    // 更新连线
+    const links = document.getElementById('links');
+    var linkPath = [];
+    balls.forEach((pa) => {
+      var sa = pa.s;
+      balls.forEach((pb) => {
+        if(pa === pb) return;
+        var sb = pb.s;
+        linkPath= linkPath.concat([`M ${sa.x} ${sa.y}`, `L ${sb.x} ${sb.y}`]);
+      })
+      links.setAttribute('d', linkPath.join(','))
+    })
+    lastTime = time;
+
+  }
+reqAniId = requestAnimationFrame(update)
 }
+
+
 
 export default {
   name: "svg-spring",
   setup(props) {
-    onMounted(() => {
-      // renderStar();
-      genPoints(2);
+    const options = reactive(Array.from({length: 19}, (v, i) => i+2));
+    const num = ref(6);
+
+    function init () {
+      let ballBox = document.getElementById('ball-box');
+      let links = document.getElementById('links');
+      ballBox.innerHTML = '';
+      links.setAttribute('d', '');
+
+      genPoints(num.value);
       reqAniId = requestAnimationFrame(update);
+    }
+
+    watch(num, (count, prevCount) => { 
+     init();
+    }) 
+    onMounted(() => {
+      init();
     });
     onBeforeUnmount(() => {
       cancelAnimationFrame(reqAniId);
     })
+
+    return {
+      options,
+      num
+    }
   },
 };
 </script>
 <style scoped>
 .lignth-box {
+  position: relative;
   height: 100%;
   font-size: 0;
   line-height: 0;
+}
+.lignth-box .form {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  width: 400px;
+  transform: translateX(-50%);
+  display: flex;
+  font-size: 20px;
+  line-height: 20px;
+}
+.lignth-box .form span {
+  margin-right: 12px;
 }
 </style>

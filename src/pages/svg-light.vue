@@ -1,5 +1,6 @@
 <template>
   <div class="lignth-box">
+  
     <svg
       id="svg"
       width="100%"
@@ -112,6 +113,7 @@ export default {
 </script>
 <style scoped>
 .lignth-box {
+  position: relative;
   height: 100%;
   font-size: 0;
   line-height: 0;
