@@ -181,6 +181,7 @@ function addBalls(x, y, num) {
       }
 }
 function render(cxt) {
+  cxt.closePath();
   cxt.clearRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
   // title

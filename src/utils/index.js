@@ -6,5 +6,5 @@ export function random(min, max) {
 }
 
 export function randomRGB() {
-  return `rgb(${random(0, 255)}, ${random(0, 255)}, ${random(0, 255)});`
+  return `rgb(${random(0, 255)}, ${random(0, 255)}, ${random(0, 255)})`
 }

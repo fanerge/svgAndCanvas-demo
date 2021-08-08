@@ -167,6 +167,15 @@ function addBalls(x, y, num) {
   for (var i = 0; i < digit[num].length; i++)
     for (var j = 0; j < digit[num][i].length; j++)
       if (digit[num][i][j] == 1) {
+        // var aBall = {
+        //   x: x + j * 2 * (RADIUS + 1) + (RADIUS + 1),
+        //   y: y + i * 2 * (RADIUS + 1) + (RADIUS + 1),
+        //   g: 1.5 + 1,
+        //   // vx: Math.pow(-1, Math.ceil(Math.random() * 1000)) * 4,
+        //   vx: Math.pow(-1, Math.ceil(Math.random() * 1000)) * 4,
+        //   vy: -5,
+        //   color: colors[random(0, colors.length - 1)],
+        // };
         var aBall = {
           x: x + j * 2 * (RADIUS + 1) + (RADIUS + 1),
           y: y + i * 2 * (RADIUS + 1) + (RADIUS + 1),
@@ -184,11 +193,8 @@ function render(cxt) {
   cxt.clearRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
   // title
-  cxt.beginPath();
   cxt.font = "24px serif";
-  cxt.fillStyle = 'black';
-  cxt.closePath();
-  cxt.fillText("数字时钟",500,50);
+  cxt.fillText("数字时钟",10,500);
 
   var hours = parseInt(curShowTimeSeconds / HourSecs);
   var minutes = parseInt((curShowTimeSeconds - hours * HourSecs) / 60);
@@ -245,12 +251,12 @@ function render(cxt) {
 }
 
 function renderDigit(x, y, num, cxt) {
-  let color = `${randomRGB()}`;
+  cxt.fillStyle = `${randomRGB()}`;
+
   for (var i = 0; i < digit[num].length; i++)
     for (var j = 0; j < digit[num][i].length; j++)
       if (digit[num][i][j] == 1) {
         cxt.beginPath();
-        
         cxt.arc(
           x + j * 2 * (RADIUS + 1) + (RADIUS + 1),
           y + i * 2 * (RADIUS + 1) + (RADIUS + 1),
@@ -258,11 +264,9 @@ function renderDigit(x, y, num, cxt) {
           0,
           2 * Math.PI
         );
-        // cxt.strokeStyle = 'red'
-        cxt.fillStyle = color;
         cxt.closePath();
+
         cxt.fill();
-        // cxt.stroke();
       }
 }
 

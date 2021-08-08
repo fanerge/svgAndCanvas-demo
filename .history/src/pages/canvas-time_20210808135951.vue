@@ -236,21 +236,20 @@ function render(cxt) {
   for (var i = 0; i < balls.length; i++) {
     cxt.fillStyle = balls[i].color;
 
-    cxt.beginPath();
+    // cxt.beginPath();
     cxt.arc(balls[i].x, balls[i].y, RADIUS, 0, 2 * Math.PI, true);
-    cxt.closePath();
+    // cxt.closePath();
 
     cxt.fill();
   }
 }
 
 function renderDigit(x, y, num, cxt) {
-  let color = `${randomRGB()}`;
+
   for (var i = 0; i < digit[num].length; i++)
     for (var j = 0; j < digit[num][i].length; j++)
       if (digit[num][i][j] == 1) {
         cxt.beginPath();
-        
         cxt.arc(
           x + j * 2 * (RADIUS + 1) + (RADIUS + 1),
           y + i * 2 * (RADIUS + 1) + (RADIUS + 1),
@@ -258,11 +257,9 @@ function renderDigit(x, y, num, cxt) {
           0,
           2 * Math.PI
         );
-        // cxt.strokeStyle = 'red'
-        cxt.fillStyle = color;
+        cxt.fillStyle = `${randomRGB()}`;
         cxt.closePath();
         cxt.fill();
-        // cxt.stroke();
       }
 }
 

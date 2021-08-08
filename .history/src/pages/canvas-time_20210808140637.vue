@@ -250,7 +250,7 @@ function renderDigit(x, y, num, cxt) {
     for (var j = 0; j < digit[num][i].length; j++)
       if (digit[num][i][j] == 1) {
         cxt.beginPath();
-        
+        cxt.fillStyle = color;
         cxt.arc(
           x + j * 2 * (RADIUS + 1) + (RADIUS + 1),
           y + i * 2 * (RADIUS + 1) + (RADIUS + 1),
@@ -258,11 +258,9 @@ function renderDigit(x, y, num, cxt) {
           0,
           2 * Math.PI
         );
-        // cxt.strokeStyle = 'red'
-        cxt.fillStyle = color;
         cxt.closePath();
-        cxt.fill();
-        // cxt.stroke();
+        //cxt.fill();
+        ctx.stroke();
       }
 }
 
