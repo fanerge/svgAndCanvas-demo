@@ -127,6 +127,9 @@ export default {
     }) 
     onMounted(() => {
       init();
+      setTimeout(() => {
+        init();
+      }, 10);
     });
     onBeforeUnmount(() => {
       cancelAnimationFrame(reqAniId);
