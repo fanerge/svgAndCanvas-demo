@@ -4,6 +4,7 @@ const CanvasTime = () => import("@/pages/canvas-time.vue")
 const SvgLight = () => import("@/pages/svg-light.vue")
 const SvgSpring = () => import("@/pages/svg-spring.vue")
 const SvgCircle = () => import("@/pages/svg-circle.vue")
+const SvgCircle1 = () => import("@/pages/svg-circle1.vue")
 const SvgWiget = () => import("@/pages/svg-wiget.vue")
 
 
@@ -42,6 +43,11 @@ const routes = [
     path: "/SvgCircle",
     name: "SvgCircle",
     component: SvgCircle
+  },
+  {
+    path: "/SvgCircle1",
+    name: "SvgCircle1",
+    component: SvgCircle1
   }
 ]
 
