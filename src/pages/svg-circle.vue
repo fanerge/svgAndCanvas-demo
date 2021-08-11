@@ -1,7 +1,7 @@
 <template>
   <div class="lignth-box">
   <div class="form">
-      <span>关系图</span>
+      <span>控制🐈‍⬛的数量</span>
       <select v-model="num">
        <option v-for="v in options" :key="v" :value="v">{{v}}</option>
       </select>
@@ -37,6 +37,10 @@ function createTag(tagName, obj={}) {
 
 function createCenter() {
   const svgDom = document.querySelector('svg');
+  const centerG = document.querySelector('#center-g');
+  if(centerG) {
+    centerG.remove();
+  }
   let g = createTag('g', {
     id: 'center-g'
   })
@@ -71,8 +75,9 @@ function createCenter() {
   });
   text.textContent = '主人';
   g.appendChild(c);
-  g.appendChild(x);
-  g.appendChild(y);
+  // 辅助线
+  // g.appendChild(x);
+  // g.appendChild(y);
   g.appendChild(text);
   svgDom.appendChild(g)
 }
@@ -121,7 +126,7 @@ function createSubC(n) {
     });
     dogI.addEventListener('mouseleave', function(e) {
       gsap.to(e.target, {
-        duration: 1,/*持续时间*/
+        duration: .3,/*持续时间*/
         scale: 1,
         transformOrigin: 'center',
       });
@@ -142,15 +147,15 @@ function createSubC(n) {
   })
 }
 
-const options = reactive(Array.from({length: 20}, (v, i) => i+2));
+const options = reactive(Array.from({length: 15}, (v, i) => i+2));
 const num = ref(6);
     
 watch(num, () => {
   createSubC(num.value)
+  createCenter()
 });
 onMounted(() => {
   num.value = 8;
-  createCenter()
 });
 onBeforeUnmount(() => {
   // cancelAnimationFrame(reqAniId);

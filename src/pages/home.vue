@@ -4,6 +4,7 @@
     <router-link class="menu-item" to="/CanvasTime">Canvas 实现数字时钟</router-link>
     <router-link class="menu-item" to="/SvgLight">Svg 实现海岸和星空</router-link>
     <router-link class="menu-item" to="/SvgSpring">Svg 实现弹簧自平衡物理模型</router-link>
+    <router-link class="menu-item" to="/SvgCircle">Svg 圈子</router-link>
     <router-link class="menu-item" to="/SvgWiget">Svg 小组件</router-link>
 
   </div>
