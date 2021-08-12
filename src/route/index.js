@@ -3,10 +3,10 @@ import { createRouter, createWebHashHistory } from "vue-router";
 const CanvasTime = () => import("@/pages/canvas-time.vue")
 const SvgLight = () => import("@/pages/svg-light.vue")
 const SvgSpring = () => import("@/pages/svg-spring.vue")
+const SvgPolyline = () => import("@/pages/svg-polyline.vue")
 const SvgCircle = () => import("@/pages/svg-circle.vue")
 const SvgCircle1 = () => import("@/pages/svg-circle1.vue")
 const SvgWiget = () => import("@/pages/svg-wiget.vue")
-
 
 
 const Home = () => import("@/pages/Home.vue")
@@ -33,6 +33,11 @@ const routes = [
     path: "/SvgSpring",
     name: "SvgSpring",
     component: SvgSpring
+  },
+  {
+    path: "/SvgPolyline",
+    name: "SvgPolyline",
+    component: SvgPolyline
   },
   {
     path: "/SvgWiget",
