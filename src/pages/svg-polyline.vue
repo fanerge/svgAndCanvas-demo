@@ -1,21 +1,19 @@
 <template>
   <div class="lignth-box">
-  <div class="form">
-      <span>弹簧自平衡物理模型，选择小球个数</span>
-      <select v-model="num">
-       <option v-for="v in options" :key="v" :value="v">{{v}}</option>
-      </select>
+    <div class="form" @click="onClickStart">
+      <button>点击开始动画</button>
     </div>
     <svg  viewBox="-50 -450 1000 500" id="chart">
     </svg>
   </div>
 </template>
-<script>
+<script setup>
 import { onMounted, onBeforeUnmount, ref, reactive, watch } from "vue";
 import { random, randomRGB } from "@/utils";
 import Vector from "@/utils/vector";
 const SVG_NS = "http://www.w3.org/2000/svg";
 var XLINK_NS = "http://www.w3.org/1999/xlink";
+import gsap from 'gsap'
 
 function createTag(tagName, obj={}) {
   let tag = document.createElementNS(SVG_NS, tagName);
@@ -55,7 +53,6 @@ function createCoor() {
   const vs = Array.from({length: (height - 150) / 100}, (_, i) => {
     let y = (i+1)*100;
     let yy = -y;
-    console.log(yy)
     let t = createTag('text', {
       x: -26,
       y: yy+3,
@@ -82,23 +79,39 @@ function createCoor() {
 
 let list = [
   {
-    name: 'x',
+    name: 'x1',
     val: 100,
   },
   {
-    name: 'x',
+    name: 'x2',
     val: 200,
   },
   {
-    name: 'x',
+    name: 'x3',
     val: 250,
   },
   {
-    name: 'x',
+    name: 'x4',
     val: 200,
   },
   {
-    name: 'x',
+    name: 'x5',
+    val: 200,
+  },
+  {
+    name: 'x6',
+    val: 200,
+  },
+  {
+    name: 'x7',
+    val: 250,
+  },
+  {
+    name: 'x8',
+    val: 200,
+  },
+  {
+    name: 'x9',
     val: 200,
   }
 ];
@@ -113,7 +126,6 @@ function createPolyline() {
     let x = i*100;
     let y = -(o.val)
     let g = createTag('g', {
-      'transform-origin': '50% 50%',
       'class': 'item'
     });
     let c = createTag('circle', {
@@ -130,19 +142,14 @@ function createPolyline() {
       ...textObj,
       color: 'red'
     });
-    t.textContent = `${o.name}`
+    t.textContent = `${o.name} ${o.val}`
     g.appendChild(t);
     g.appendChild(c);
-    g.addEventListener('mouseenter', (e) => {
-      console.log(e.target.setAttribute('transform', 'scale(2)'))
-    });
-    g.addEventListener('mouseleave', (e) => {
-      e.target.setAttribute('transform', 'scale(2)')
-    });
     cs = cs.concat(g);
     ds = ds.concat(`L ${x} ${y}`);
   });
   let p = createTag('path', {
+    id:"line",
     'stroke-width': 2,
     stroke: 'pink',
     fill: 'none',
@@ -156,13 +163,27 @@ function createPolyline() {
 
 }
 
+function onClickStart() {
+  let line = document.getElementById('line');
+  let len = line.getTotalLength()
+  line.setAttribute('stroke-dasharray', len);
+  line.setAttribute('stroke-dashoffset', len);
+  let lastTime = 0;
+  let l = len;
+  let id = 0;
+  function update(time) {
+    if(l<=0) {
+      cancelAnimationFrame(id)
+      return;
+    }
+    l -= 10;
+    line.setAttribute('stroke-dashoffset', l);
+    id = requestAnimationFrame(update);
+  }
+  id = requestAnimationFrame(update);
+}
 
-
-
-export default {
-  name: "svg-spring",
-  setup(props) {
-    const options = reactive(Array.from({length: 19}, (v, i) => i+2));
+const options = reactive(Array.from({length: 19}, (v, i) => i+2));
     const num = ref(6);
 
     watch(num, (count, prevCount) => { 
@@ -171,17 +192,11 @@ export default {
     onMounted(() => {
       createPolyline();
       createCoor();
+      onClickStart()
     });
     onBeforeUnmount(() => {
 
     })
-
-    return {
-      options,
-      num
-    }
-  },
-};
 </script>
 <style scoped>
 .lignth-box {
@@ -189,6 +204,11 @@ export default {
   height: 100%;
   font-size: 0;
   line-height: 0;
+}
+.form {
+  font-size: 20px;
+  line-height: 1.5;
+  cursor: pointer;
 }
 #chart {
   background-color: #f6f6f6;
