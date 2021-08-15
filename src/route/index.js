@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 
 const CanvasTime = () => import("@/pages/canvas-time.vue")
+const CanvasWidget = () => import("@/pages/canvas-widget.vue")
 const SvgLight = () => import("@/pages/svg-light.vue")
 const SvgSpring = () => import("@/pages/svg-spring.vue")
 const SvgPolyline = () => import("@/pages/svg-polyline.vue")
@@ -18,6 +19,11 @@ const routes = [
     path: "/home",
     name: "home",
     component: Home
+  },
+  {
+    path: "/CanvasWidget",
+    name: "CanvasWidget",
+    component: CanvasWidget
   },
   {
     path: "/CanvasTime",

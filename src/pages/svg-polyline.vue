@@ -1,7 +1,7 @@
 <template>
   <div class="lignth-box">
     <div class="form" @click="onClickStart">
-      <button>点击开始动画</button>
+      <button>点击绘制折线</button>
     </div>
     <svg  viewBox="-50 -450 1000 500" id="chart">
     </svg>
@@ -116,10 +116,11 @@ let list = [
   }
 ];
 function createPolyline() {
-  const svg = document.querySelector('#chart');
+  let svg = document.querySelector('#chart');
   const g = createTag('g', {
     id: 'polyline'
   });
+  
   let cs = [];
   let ds = ['M 0 0'];
   list.forEach((o, i) => {
@@ -183,12 +184,6 @@ function onClickStart() {
   id = requestAnimationFrame(update);
 }
 
-const options = reactive(Array.from({length: 19}, (v, i) => i+2));
-    const num = ref(6);
-
-    watch(num, (count, prevCount) => { 
-
-    }) 
     onMounted(() => {
       createPolyline();
       createCoor();
