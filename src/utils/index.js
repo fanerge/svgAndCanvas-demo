@@ -8,3 +8,13 @@ export function random(min, max) {
 export function randomRGB() {
   return `rgb(${random(0, 255)}, ${random(0, 255)}, ${random(0, 255)})`
 }
+
+export function drawStar(ctx, x, y, scale, style) {
+  ctx.beginPath();
+  ctx.save();
+  // ctx.fillStyle = style;
+  ctx.scale(scale, scale);
+  ctx.fillText("*", x, y, style);
+  ctx.fill();
+  ctx.restore();
+}

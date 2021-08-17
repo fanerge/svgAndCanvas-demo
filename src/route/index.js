@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from "vue-router";
 
 const CanvasTime = () => import("@/pages/canvas-time.vue")
 const CanvasWidget = () => import("@/pages/canvas-widget.vue")
+const CanvasLight = () => import("@/pages/canvas-light.vue")
 const SvgLight = () => import("@/pages/svg-light.vue")
 const SvgSpring = () => import("@/pages/svg-spring.vue")
 const SvgPolyline = () => import("@/pages/svg-polyline.vue")
@@ -24,6 +25,11 @@ const routes = [
     path: "/CanvasWidget",
     name: "CanvasWidget",
     component: CanvasWidget
+  },
+  {
+    path: "/CanvasLight",
+    name: "CanvasLight",
+    component: CanvasLight
   },
   {
     path: "/CanvasTime",
